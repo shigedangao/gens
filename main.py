@@ -3,6 +3,12 @@ import torch
 from diffusers import ZImagePipeline
 from io import BytesIO
 import base64
+import os
+
+SIZE = int(os.environ.get("SIZE", "1024"))
+INFERENCE_STEPS = int(os.environ.get("INFERENCE_STEPS", "9"))
+GUIDANCE_SCALE = float(os.environ.get("GUIDANCE_SCALE", "0.0"))
+SEED = int(os.environ.get("SEED", "42"))
 
 assert (
     torch.cuda.is_available()
@@ -37,11 +43,11 @@ def stable_diffusion_handler(event):
     try:
         image = model(
             prompt=prompt,
-            height=1024,
-            width=1024,
-            num_inference_steps=9,
-            guidance_scale=0.0,
-            generator=torch.Generator("cuda").manual_seed(42),
+            height=SIZE,
+            width=SIZE,
+            num_inference_steps=INFERENCE_STEPS,
+            guidance_scale=GUIDANCE_SCALE,
+            generator=torch.Generator("cuda").manual_seed(SEED),
         ).images[0]
         image_base64 = image_to_base64(image)
 
