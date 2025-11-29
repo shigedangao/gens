@@ -1,14 +1,13 @@
 FROM runpod/pytorch:2.4.0-py3.11-cuda12.4.1-devel-ubuntu22.04
 
 # Install uv
-RUN curl -LsSf https://astral.sh/uv/install.sh | sh
-ENV PATH="/root/.cargo/bin:$PATH"
+COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
 
 WORKDIR /app
 
 COPY pyproject.toml .
-RUN uv pip install --system -r pyproject.toml
-
 COPY main.py .
 
-CMD ["python", "main.py"]
+RUN uv sync
+
+CMD ["uv", "run", "main.py"]

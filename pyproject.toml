@@ -9,6 +9,7 @@ dependencies = [
     "runpod>=1.8.1",
     "torch>=2.9.1",
     "torchvision>=0.24.1",
+    "transformers>=4.57.3",
 ]
 
 [tool.uv.sources]

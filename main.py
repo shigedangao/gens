@@ -40,7 +40,7 @@ def stable_diffusion_handler(event):
             height=1024,
             width=1024,
             num_inference_steps=9,
-            guidance_scale=2.0,
+            guidance_scale=0.0,
             generator=torch.Generator("cuda").manual_seed(42),
         ).images[0]
         image_base64 = image_to_base64(image)
